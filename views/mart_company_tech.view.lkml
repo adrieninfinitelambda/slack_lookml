@@ -33,6 +33,11 @@ view: mart_company_tech {
     sql: ${TABLE}."USR_COMPANY_NAME" ;;
   }
 
+  dimension: slack_source {
+    type: string
+    sql: ${TABLE}."SLACK_SOURCE" ;;
+  }
+
 
   measure: count {
     type: count

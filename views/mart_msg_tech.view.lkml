@@ -30,6 +30,10 @@ view: mart_msg_tech {
     sql: ${TABLE}."USR_COMPANY_NAME" ;;
   }
 
+  dimension: slack_source {
+    type: string
+    sql: ${TABLE}."SLACK_SOURCE" ;;
+  }
 
   dimension_group: msg_send {
     type: time
