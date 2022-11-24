@@ -1,8 +1,8 @@
 view: mart_company_tech {
 
   sql_table_name:
-    -- if dev -- '@{staging}.MART_COMPANY_TECH'
-    -- if prod -- '@{prod}.MART_COMPANY_TECH'
+    -- if dev -- @{staging}.MART_COMPANY_TECH
+    -- if prod -- @{prod}.MART_COMPANY_TECH
     ;;
 
 
@@ -34,21 +34,18 @@ view: mart_company_tech {
   }
 
 
-  #Aggr techs
-  dimension: analytics {
-    type: string
-    sql: ${TABLE}."ANALYTICS" ;;
-  }
-
-  dimension: cloud_infras {
-    type: string
-    sql: ${TABLE}."CLOUD_INFRAS" ;;
+  measure: count {
+    type: count
+    drill_fields: [usr_last_name, usr_company_name, usr_first_name]
   }
 
 
-  dimension: data_ingestions {
+  #To generate list use dbt macro : dbt run-operation generate_lookml
+  #And copy / past result below
+#Dimensions list
+  dimension: cloud {
     type: string
-    sql: ${TABLE}."DATA_INGESTIONS" ;;
+    sql: ${TABLE}."CLOUD" ;;
   }
 
   dimension: datavizs {
@@ -56,6 +53,10 @@ view: mart_company_tech {
     sql: ${TABLE}."DATAVIZS" ;;
   }
 
+  dimension: mls {
+    type: string
+    sql: ${TABLE}."MLS" ;;
+  }
 
   dimension: datawarehouses {
     type: string
@@ -67,49 +68,9 @@ view: mart_company_tech {
     sql: ${TABLE}."GITS" ;;
   }
 
-  dimension: mls {
+  dimension: dataingestions {
     type: string
-    sql: ${TABLE}."MLS" ;;
-  }
-
-  dimension: reverse_etl {
-    type: string
-    sql: ${TABLE}."REVERSE_ETL" ;;
-  }
-
-  dimension: reverse_etl_censius {
-    type: number
-    sql: ${TABLE}."REVERSE_ETL_CENSIUS" ;;
-  }
-
-  dimension: reverse_etl_hightouch {
-    type: number
-    sql: ${TABLE}."REVERSE_ETL_HIGHTOUCH" ;;
-  }
-
-  dimension: role {
-    type: string
-    sql: ${TABLE}."ROLE" ;;
-  }
-
-  dimension: role_analyst {
-    type: number
-    sql: ${TABLE}."ROLE_ANALYST" ;;
-  }
-
-  dimension: role_analytics_eng {
-    type: number
-    sql: ${TABLE}."ROLE_ANALYTICS_ENG" ;;
-  }
-
-  dimension: role_data_eng {
-    type: number
-    sql: ${TABLE}."ROLE_DATA_ENG" ;;
-  }
-
-  dimension: role_data_scien {
-    type: number
-    sql: ${TABLE}."ROLE_DATA_SCIEN" ;;
+    sql: ${TABLE}."DATAINGESTIONS" ;;
   }
 
   dimension: scheduler {
@@ -117,9 +78,9 @@ view: mart_company_tech {
     sql: ${TABLE}."SCHEDULER" ;;
   }
 
-  dimension: streaming {
+  dimension: reverseetl {
     type: string
-    sql: ${TABLE}."STREAMING" ;;
+    sql: ${TABLE}."REVERSEETL" ;;
   }
 
   dimension: transformation {
@@ -127,181 +88,371 @@ view: mart_company_tech {
     sql: ${TABLE}."TRANSFORMATION" ;;
   }
 
-
-
-  measure: datavizs_datastudio {
-    type: sum
-    sql: ${TABLE}."DATAVIZS_DATASTUDIO" ;;
+  dimension: datagovobs {
+    type: string
+    sql: ${TABLE}."DATAGOVOBS" ;;
   }
 
-  measure: datavizs_hex {
-    type: sum
-    sql: ${TABLE}."DATAVIZS_HEX" ;;
+  dimension: streaming {
+    type: string
+    sql: ${TABLE}."STREAMING" ;;
   }
 
-  measure: datavizs_looker {
-    type: sum
-    sql: ${TABLE}."DATAVIZS_LOOKER" ;;
+  dimension: analytics {
+    type: string
+    sql: ${TABLE}."ANALYTICS" ;;
   }
 
-  measure: datavizs_metabase {
-    type: sum
-    sql: ${TABLE}."DATAVIZS_METABASE" ;;
+  dimension: role {
+    type: string
+    sql: ${TABLE}."ROLE" ;;
   }
 
-  measure: datavizs_mode {
+
+  #Measure list
+
+
+
+  measure: cloud_azure {
+    group_label: "CLOUD"
     type: sum
-    sql: ${TABLE}."DATAVIZS_MODE" ;;
+    sql: ${TABLE}."CLOUD_AZURE" ;;
   }
 
-  measure: datavizs_power {
+  measure: cloud_aws {
+    group_label: "CLOUD"
     type: sum
-    sql: ${TABLE}."DATAVIZS_POWER" ;;
+    sql: ${TABLE}."CLOUD_AWS" ;;
   }
 
-  measure: datavizs_qlik {
+  measure: cloud_gcp {
+    group_label: "CLOUD"
     type: sum
-    sql: ${TABLE}."DATAVIZS_QLIK" ;;
+    sql: ${TABLE}."CLOUD_GCP" ;;
   }
 
-  measure: datavizs_streamlit {
+  measure: cloud_clickhouse {
+    group_label: "CLOUD"
     type: sum
-    sql: ${TABLE}."DATAVIZS_STREAMLIT" ;;
+    sql: ${TABLE}."CLOUD_CLICKHOUSE" ;;
   }
+
 
   measure: datavizs_tableau {
+    group_label: "DATAVIZS"
     type: sum
     sql: ${TABLE}."DATAVIZS_TABLEAU" ;;
   }
 
-  measure: data_ingestions_airbyte {
+  measure: datavizs_looker {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."DATA_INGESTIONS_AIRBYTE" ;;
+    sql: ${TABLE}."DATAVIZS_LOOKER" ;;
   }
 
-  measure: data_ingestions_fivetran {
+  measure: datavizs_powerbi {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."DATA_INGESTIONS_FIVETRAN" ;;
+    sql: ${TABLE}."DATAVIZS_POWERBI" ;;
   }
 
-  measure: data_ingestions_stitch {
+  measure: datavizs_streamlit {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."DATA_INGESTIONS_STITCH" ;;
+    sql: ${TABLE}."DATAVIZS_STREAMLIT" ;;
   }
 
-  measure: cloud_infras_aws {
+  measure: datavizs_metabase {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."CLOUD_INFRAS_AWS" ;;
+    sql: ${TABLE}."DATAVIZS_METABASE" ;;
   }
 
-  measure: cloud_infras_azure {
+  measure: datavizs_datastudio {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."CLOUD_INFRAS_AZURE" ;;
+    sql: ${TABLE}."DATAVIZS_DATASTUDIO" ;;
   }
 
-  measure: cloud_infras_clickhouse {
+  measure: datavizs_qlik {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."CLOUD_INFRAS_CLICKHOUSE" ;;
+    sql: ${TABLE}."DATAVIZS_QLIK" ;;
   }
 
-  measure: cloud_infras_gcp {
+  measure: datavizs_hex {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."CLOUD_INFRAS_GCP" ;;
+    sql: ${TABLE}."DATAVIZS_HEX" ;;
   }
 
-  measure: analytics_at_internet {
+  measure: datavizs_mode {
+    group_label: "DATAVIZS"
     type: sum
-    sql: ${TABLE}."ANALYTICS_AT_INTERNET" ;;
+    sql: ${TABLE}."DATAVIZS_MODE" ;;
   }
 
-  measure: analytics_google_analytics {
+
+  measure: mls_databricks {
+    group_label: "MLS"
     type: sum
-    sql: ${TABLE}."ANALYTICS_GOOGLE_ANALYTICS" ;;
+    sql: ${TABLE}."MLS_DATABRICKS" ;;
   }
 
-  measure: analytics_mixpanel {
+  measure: mls_jupyter {
+    group_label: "MLS"
     type: sum
-    sql: ${TABLE}."ANALYTICS_MIXPANEL" ;;
+    sql: ${TABLE}."MLS_JUPYTER" ;;
   }
 
-  measure: analytics_segment {
+  measure: mls_sagemaker {
+    group_label: "MLS"
     type: sum
-    sql: ${TABLE}."ANALYTICS_SEGMENT" ;;
+    sql: ${TABLE}."MLS_SAGEMAKER" ;;
   }
 
-  measure: analytics_snowplow {
+  measure: mls_tensorflow {
+    group_label: "MLS"
     type: sum
-    sql: ${TABLE}."ANALYTICS_SNOWPLOW" ;;
+    sql: ${TABLE}."MLS_TENSORFLOW" ;;
   }
 
-  measure: datawarehouses_big_query {
-    type: sum
-    sql: ${TABLE}."DATAWAREHOUSES_BIG_QUERY" ;;
-  }
-
-  measure: datawarehouses_rds {
-    type: sum
-    sql: ${TABLE}."DATAWAREHOUSES_RDS" ;;
-  }
 
   measure: datawarehouses_redshift {
+    group_label: "DATAWAREHOUSES"
     type: sum
     sql: ${TABLE}."DATAWAREHOUSES_REDSHIFT" ;;
   }
 
   measure: datawarehouses_snowflake {
+    group_label: "DATAWAREHOUSES"
     type: sum
     sql: ${TABLE}."DATAWAREHOUSES_SNOWFLAKE" ;;
   }
 
-  measure: gits_bitbucket {
+  measure: datawarehouses_bigquery {
+    group_label: "DATAWAREHOUSES"
     type: sum
-    sql: ${TABLE}."GITS_BITBUCKET" ;;
+    sql: ${TABLE}."DATAWAREHOUSES_BIGQUERY" ;;
   }
 
-  measure: gits_github {
+  measure: datawarehouses_rds {
+    group_label: "DATAWAREHOUSES"
     type: sum
-    sql: ${TABLE}."GITS_GITHUB" ;;
+    sql: ${TABLE}."DATAWAREHOUSES_RDS" ;;
   }
+
 
   measure: gits_gitlab {
+    group_label: "GITS"
     type: sum
     sql: ${TABLE}."GITS_GITLAB" ;;
   }
 
-  measure: mls_databricks {
+  measure: gits_github {
+    group_label: "GITS"
     type: sum
-    sql: ${TABLE}."MLS_DATABRICKS" ;;
+    sql: ${TABLE}."GITS_GITHUB" ;;
   }
 
+  measure: gits_bitbucket {
+    group_label: "GITS"
+    type: sum
+    sql: ${TABLE}."GITS_BITBUCKET" ;;
+  }
+
+
+  measure: dataingestions_fivetran {
+    group_label: "DATAINGESTIONS"
+    type: sum
+    sql: ${TABLE}."DATAINGESTIONS_FIVETRAN" ;;
+  }
+
+  measure: dataingestions_airbyte {
+    group_label: "DATAINGESTIONS"
+    type: sum
+    sql: ${TABLE}."DATAINGESTIONS_AIRBYTE" ;;
+  }
+
+  measure: dataingestions_stitch {
+    group_label: "DATAINGESTIONS"
+    type: sum
+    sql: ${TABLE}."DATAINGESTIONS_STITCH" ;;
+  }
+
+  measure: dataingestions_meltano {
+    group_label: "DATAINGESTIONS"
+    type: sum
+    sql: ${TABLE}."DATAINGESTIONS_MELTANO" ;;
+  }
+
+  measure: dataingestions_singer {
+    group_label: "DATAINGESTIONS"
+    type: sum
+    sql: ${TABLE}."DATAINGESTIONS_SINGER" ;;
+  }
+
+
   measure: scheduler_airflow {
+    group_label: "SCHEDULER"
     type: sum
     sql: ${TABLE}."SCHEDULER_AIRFLOW" ;;
   }
 
   measure: scheduler_prefect {
+    group_label: "SCHEDULER"
     type: sum
     sql: ${TABLE}."SCHEDULER_PREFECT" ;;
   }
 
 
-  measure: streaming_kafka {
+  measure: reverseetl_hightouch {
+    group_label: "REVERSEETL"
     type: sum
-    sql: ${TABLE}."STREAMING_KAFKA" ;;
+    sql: ${TABLE}."REVERSEETL_HIGHTOUCH" ;;
   }
 
+  measure: reverseetl_censius {
+    group_label: "REVERSEETL"
+    type: sum
+    sql: ${TABLE}."REVERSEETL_CENSIUS" ;;
+  }
+
+
   measure: transformation_dbt {
+    group_label: "TRANSFORMATION"
     type: sum
     sql: ${TABLE}."TRANSFORMATION_DBT" ;;
   }
 
   measure: transformation_talend {
+    group_label: "TRANSFORMATION"
     type: sum
     sql: ${TABLE}."TRANSFORMATION_TALEND" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [usr_last_name, usr_company_name, usr_first_name]
+  measure: transformation_dataflow {
+    group_label: "TRANSFORMATION"
+    type: sum
+    sql: ${TABLE}."TRANSFORMATION_DATAFLOW" ;;
   }
+
+
+  measure: datagovobs_atlan {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_ATLAN" ;;
+  }
+
+  measure: datagovobs_selectstar {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_SELECTSTAR" ;;
+  }
+
+  measure: datagovobs_sifflet {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_SIFFLET" ;;
+  }
+
+  measure: datagovobs_castor {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_CASTOR" ;;
+  }
+
+  measure: datagovobs_secoda {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_SECODA" ;;
+  }
+
+  measure: datagovobs_collibra {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_COLLIBRA" ;;
+  }
+
+  measure: datagovobs_immuta {
+    group_label: "DATAGOVOBS"
+    type: sum
+    sql: ${TABLE}."DATAGOVOBS_IMMUTA" ;;
+  }
+
+
+  measure: streaming_kafka {
+    group_label: "STREAMING"
+    type: sum
+    sql: ${TABLE}."STREAMING_KAFKA" ;;
+  }
+
+  measure: streaming_kinesis {
+    group_label: "STREAMING"
+    type: sum
+    sql: ${TABLE}."STREAMING_KINESIS" ;;
+  }
+
+  measure: streaming_sub {
+    group_label: "STREAMING"
+    type: sum
+    sql: ${TABLE}."STREAMING_SUB" ;;
+  }
+
+
+  measure: analytics_at_internet {
+    group_label: "ANALYTICS"
+    type: sum
+    sql: ${TABLE}."ANALYTICS_AT_INTERNET" ;;
+  }
+
+  measure: analytics_snowplow {
+    group_label: "ANALYTICS"
+    type: sum
+    sql: ${TABLE}."ANALYTICS_SNOWPLOW" ;;
+  }
+
+  measure: analytics_google_analytics {
+    group_label: "ANALYTICS"
+    type: sum
+    sql: ${TABLE}."ANALYTICS_GOOGLE_ANALYTICS" ;;
+  }
+
+  measure: analytics_mixpanel {
+    group_label: "ANALYTICS"
+    type: sum
+    sql: ${TABLE}."ANALYTICS_MIXPANEL" ;;
+  }
+
+  measure: analytics_segment {
+    group_label: "ANALYTICS"
+    type: sum
+    sql: ${TABLE}."ANALYTICS_SEGMENT" ;;
+  }
+
+
+  measure: role_analyst {
+    group_label: "ROLE"
+    type: sum
+    sql: ${TABLE}."ROLE_ANALYST" ;;
+  }
+
+  measure: role_analytics_eng {
+    group_label: "ROLE"
+    type: sum
+    sql: ${TABLE}."ROLE_ANALYTICS_ENG" ;;
+  }
+
+  measure: role_data_science {
+    group_label: "ROLE"
+    type: sum
+    sql: ${TABLE}."ROLE_DATA_SCIENCE" ;;
+  }
+
+  measure: role_data_eng {
+    group_label: "ROLE"
+    type: sum
+    sql: ${TABLE}."ROLE_DATA_ENG" ;;
+  }
+
 }
