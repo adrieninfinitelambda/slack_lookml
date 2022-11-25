@@ -1,4 +1,4 @@
-connection: "slack-project-connection-sf-slack"
+connection: "slack-looker"
 
 # include all the views
 include: "/views/**/*.view"
