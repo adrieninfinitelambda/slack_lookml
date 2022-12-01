@@ -55,6 +55,11 @@ view: mart_msg_tech {
   }
 
 
+  dimension: job_board {
+    type: string
+    sql: ${TABLE}."JOB_BOARD" ;;
+  }
+
   #To generate list use dbt macro : dbt run-operation generate_lookml
   #And copy / past result below
 

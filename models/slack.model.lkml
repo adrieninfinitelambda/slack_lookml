@@ -13,5 +13,9 @@ explore: mart_msg_tech  {
 }
 
 explore: mart_company_tech {
-  label: "Company aggregate informations"
+  label: "Company - user informations"
+}
+
+explore: mart_agg_msg_company {
+  label: "Company aggr msg"
 }
