@@ -1,8 +1,7 @@
 view: mart_company_tech {
 
   sql_table_name:
-    -- if dev -- @{staging}.MART_COMPANY_TECH
-    -- if prod -- @{prod}.MART_COMPANY_TECH
+    MART_COMPANY_TECH
     ;;
 
 
