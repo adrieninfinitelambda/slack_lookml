@@ -1,7 +1,6 @@
 view: mart_msg_tech {
   sql_table_name:
-    -- if dev -- @{staging}.MART_MSG_TECH
-    -- if prod -- @{prod}.MART_MSG_TECH
+    MART_MSG_TECH
     ;;
 
   dimension: usr_id {

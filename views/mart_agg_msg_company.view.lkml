@@ -1,5 +1,5 @@
 view: mart_agg_msg_company {
-  sql_table_name: "DBT_SLACK_PROD"."MART_AGG_MSG_COMPANY"
+  sql_table_name: MART_AGG_MSG_COMPANY
     ;;
 
   dimension: job_board {
